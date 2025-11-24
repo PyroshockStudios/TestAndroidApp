@@ -56,4 +56,4 @@ Install [CMAKE](https://cmake.org/download/) and set it up, and verify that it w
 Now you should be ready to build!
 
 To build and run, there are 4 powershell scripts for windows, there are build scripts that set up the build environment, and the run scripts execute it. 
-**Note: running on android requires you to connect your android device via USB and have USB debug trace enabled!**
+**Note: running on android requires you to connect your android device via USB and have USB debug trace enabled! (This means you need to enable [developer mode](https://developer.android.com/studio/debug/dev-options))**

@@ -1,6 +1,7 @@
 # build directories
 build-win/
 build/
+out/
 
 .gradle/
 .vs/
