@@ -1,0 +1,27 @@
+plugins {
+    id 'com.android.application' version '8.1.0'
+}
+
+android {
+    namespace 'com.example.testandroidapp'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.example.testandroidapp"
+        minSdk 24
+        targetSdk 33
+        
+        externalNativeBuild {
+            cmake {
+                // Ensure we build shared libraries (.so)
+                arguments "-DANDROID_STL=c++_shared"
+            }
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+        }
+    }
+}

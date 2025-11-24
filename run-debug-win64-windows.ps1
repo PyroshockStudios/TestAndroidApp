@@ -1,0 +1,1 @@
+.\build-win\Debug\test_android_app.exe

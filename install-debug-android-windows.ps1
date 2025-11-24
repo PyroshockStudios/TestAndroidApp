@@ -1,0 +1,1 @@
+adb install build/outputs/apk/debug/TestAndroidApp-debug.apk

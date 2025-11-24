@@ -1,0 +1,17 @@
+# build directories
+build-win/
+build/
+
+.gradle/
+.vs/
+.vscode/
+
+# build files
+.cxx/
+*.obj
+*.exe
+*.dll
+*.jar
+*.so
+*.a
+*.lib
