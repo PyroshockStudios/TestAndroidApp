@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
 
+#include "asset_loader.h"
+
 // ============================================================================
 // PLATFORM: ANDROID
 // ============================================================================
@@ -13,13 +15,13 @@
 // Handle Android Lifecycle events (Focus, Window creation, etc.)
 static void handle_cmd(struct android_app* app, int32_t cmd) {
     switch (cmd) {
-        case APP_CMD_INIT_WINDOW:
-            LOGI("Window is ready - you can start rendering now.");
-            // In a real game, you would initialize OpenGL/Vulkan here
-            break;
-        case APP_CMD_TERM_WINDOW:
-            LOGI("Window is being destroyed.");
-            break;
+    case APP_CMD_INIT_WINDOW:
+        LOGI("Window is ready - you can start rendering now.");
+        // In a real game, you would initialize OpenGL/Vulkan here
+        break;
+    case APP_CMD_TERM_WINDOW:
+        LOGI("Window is being destroyed.");
+        break;
     }
 }
 
@@ -29,6 +31,22 @@ void android_main(struct android_app* state) {
 
     // Set up the event handler
     state->onAppCmd = handle_cmd;
+
+    asset_loader_state loader_state;
+    loader_state.android_state = state;
+
+    asset_loader* loader = new asset_loader(&loader_state);
+    asset_file_data result = loader->load("print.txt");
+    if (result.success) {
+        char* buffer = new char[result.content.size() + 1];
+        memcpy(buffer, result.content.data(), result.content.size());
+        buffer[result.content.size()] = '\0';
+        LOGI("Loaded asset content: %s", buffer);
+        delete[] buffer;
+    }
+    else {
+        LOGI("Failed to load asset.");
+    }
 
     // The Main Loop
     while (true) {
@@ -50,6 +68,7 @@ void android_main(struct android_app* state) {
         // --- GAME LOOP HERE ---
         // Render frames, update logic, etc.
     }
+    delete loader;
 }
 
 // ============================================================================
@@ -60,10 +79,28 @@ void android_main(struct android_app* state) {
 // --- WINDOWS ENTRY POINT ---
 int main() {
     std::cout << "Booting on Windows Desktop..." << std::endl;
-    std::cout << "Game Loop running. Press Enter to exit." << std::endl;
-    
-    // Simulate a "loop" blocking the exit
-    std::cin.get(); 
+
+    asset_loader_state loader_state;
+
+    asset_loader* loader = new asset_loader(&loader_state);
+    asset_file_data result = loader->load("print.txt");
+    if (result.success) {
+        char* buffer = new char[result.content.size() + 1];
+        memcpy(buffer, result.content.data(), result.content.size());
+        buffer[result.content.size()] = '\0';
+        std::cout << "Loaded asset content: " << buffer << "\n";
+        delete[] buffer;
+    }
+    else {
+        std::cout << "Failed to load asset." << "\n";
+    }
+
+    std::cout << "App running. Press Enter to exit." << std::endl;
+
+    std::cin.get();
+
+    delete loader;
+
     return 0;
 }
 

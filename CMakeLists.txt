@@ -12,7 +12,7 @@ if(ANDROID)
 
     # 3. Create YOUR shared library
     # Note: The library name MUST match what we put in AndroidManifest.xml later
-    add_library(test_android_app SHARED src/main.cpp)
+    add_library(test_android_app SHARED src/main.cpp src/asset_loader.cpp)
 
     # 4. Link libraries
     # 'android' -> Native window management
@@ -29,5 +29,11 @@ if(ANDROID)
 # --- WINDOWS SETUP ---
 else()
     # Standard executable for Desktop
-    add_executable(test_android_app src/main.cpp)
+    add_executable(test_android_app src/main.cpp src/asset_loader.cpp)
+
+    # Copy the assets folder to the build directory for Windows
+    file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/src/main/assets"
+         DESTINATION "${CMAKE_BINARY_DIR}")
+         
+    message(STATUS "Copied assets to ${CMAKE_BINARY_DIR}/assets")
 endif()
